@@ -25,33 +25,33 @@ export default function Recipe({ categories, foods }) {
     </View>
   );
 }
-
+ 
 const ArticleCard = ({ item, index, navigation }) => {
   return (
     <View
-      style={[styles.cardContainer, { paddingLeft: 20, paddingRight: 15}]} testID="articleDisplay">
-   
-   <TouchableOpacity 
+      style={[styles.cardContainer, { paddingLeft: index % 2 === 0 ? 0 : 8, paddingRight: index % 2 === 0 ? 8 : 0 }]} 
+      testID="articleDisplay"
+    >
+      <TouchableOpacity 
         onPress={() => navigation.navigate("RecipeDetail", { ...item })}
         activeOpacity={0.8}
       >
-        {/* Recipe Thumbnail Image */}
+        {/* 1. Correct Image URL Key */}
         <Image 
-          source={{ uri: item.strMealThumb || item.image || item.thumbnail }} 
+          source={{ uri: item.recipeImage }} 
           style={styles.articleImage} 
         />
         
-        {/* Recipe Name */}
+        {/* 2. Correct Recipe Name Key */}
         <Text style={styles.articleText} numberOfLines={1}>
-          {item.strMeal || item.name || item.title}
+          {item.recipeName}
         </Text>
 
-        {/* Recipe Description */}
+        {/* 3. Correct Recipe Description Key */}
         <Text style={styles.articleDescription} numberOfLines={2}>
-          {item.strInstructions || item.description}
+          {item.cookingDescription || item.recipeInstructions}
         </Text>
       </TouchableOpacity>
-
     </View>
   );
 };
@@ -60,6 +60,7 @@ const styles = StyleSheet.create({
   container: {
     marginHorizontal: wp(4), // mx-4 equivalent
     marginTop: hp(2),
+    flex: 1,
   },
   title: {
     fontSize: hp(3),
@@ -74,10 +75,11 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     marginBottom: hp(1.5),
     flex: 1, // Allows cards to grow and fill space evenly
+    paddingHorizontal: wp(1),
   },
   articleImage: {
     width: "100%",
-   
+    height: hp(18),
     borderRadius: 35,
     backgroundColor: "rgba(0, 0, 0, 0.05)", // bg-black/5
   },
