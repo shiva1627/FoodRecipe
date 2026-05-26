@@ -22,6 +22,28 @@ export default function FavoriteScreen() {
   const favoriteRecipesList = favoriteRecipes?.favoriterecipes || [];
   console.log(favoriteRecipes.favoriterecipes);
   console.log('favoriteRecipesList',favoriteRecipesList);
+
+  const renderItem = ({ item }) => {
+    const recipeName = item.recipeName || item.recipeTitle || "";
+    // Limits the title length to 20 characters and appends trailing dots if exceeded
+    const truncatedTitle = recipeName.length > 20 ? `${recipeName.substring(0, 20)}...` : recipeName;
+
+    return (
+      <TouchableOpacity
+        style={styles.cardContainer}
+        onPress={() => navigation.navigate("RecipeDetail", { ...item })}
+        activeOpacity={0.7}
+      >
+        <Image 
+          source={{ uri: item.recipeImage }} 
+          style={styles.recipeImage} 
+        />
+        <Text style={styles.recipeTitle}>
+          {truncatedTitle}
+        </Text>
+      </TouchableOpacity>
+    );
+  };
   
   
 
@@ -43,12 +65,13 @@ export default function FavoriteScreen() {
         >
           <Text style={{ color: "#fff" }}>Go back</Text>
         </TouchableOpacity>
+
       </View>
     );
   }
 
   return (
-    <>
+    <View style={{ flex: 1, backgroundColor: "white" }}>
       {/* Heading */}
       <View testID="FavoriteRecipes">
         <Text
@@ -73,8 +96,16 @@ export default function FavoriteScreen() {
       >
         <Text style={{ color: "#fff" }}>Go back</Text>
       </TouchableOpacity>
-    
-    </>
+      
+     {/* 2. Scrollable List of Target Favorites Assets */}
+     <FlatList
+        data={favoriteRecipesList}
+        renderItem={renderItem}
+        keyExtractor={(item, index) => item.idCategory ? item.idCategory.toString() : (item.idFood ? item.idFood.toString() : index.toString())}
+        contentContainerStyle={styles.listContentContainer}
+        showsVerticalScrollIndicator={false}
+      />
+    </View>
   );
 }
 
