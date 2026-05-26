@@ -51,34 +51,44 @@ import {
         {/* Recipe Image */}
         <View style={styles.imageContainer} testID="imageContainer">
         {recipe.image && (
-            <Image source={{ uri: recipe.image }} style={styles.recipeImage} />
-          )}
-        </View>
-        <View
-          style={styles.topButtonsContainer} testID="topButtonsContainer"
+          <Image 
+            source={{ uri: recipe.image }} 
+            style={[
+              styles.articleImage, 
+              { height: index % 3 === 0 ? hp(25) : hp(35) }
+            ]} 
+          />
+        )}
+      </View>
+      <View style={styles.topButtonsContainer} testID="topButtonsContainer">
+        <TouchableOpacity
+          onPress={() => navigation.goBack()}
+          style={styles.backButton}
         >
-          <TouchableOpacity
-            onPress={() => navigation.goBack()}
-            style={styles.backButton}
-          >
-            <Text>Back</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            onPress={handleToggleFavorite}
-            style={styles.favoriteButton}
-          >
-            <Text>{isFavourite ? "♥" : "♡"}</Text>
-          </TouchableOpacity>
-        </View>
+          <Text style={styles.backButtonText}>GoBack</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          onPress={handleToggleFavorite}
+          style={styles.favoriteButton}
+        >
+          <Text style={styles.favoriteButtonText}>{isFavourite ? "♥" : "♡"}</Text>
+        </TouchableOpacity>
+      </View>
   
         {/* Recipe Details */}
         <View style={styles.contentContainer} testID="contentContainer">
+        {/* Main Title Component */}
         <Text style={styles.recipeTitle}>{recipe.title}</Text>
-  <View style={styles.sectionContainer}>
-    <Text style={styles.sectionTitle}>Content</Text>
-    <Text style={styles.contentText}>{recipe.description}</Text>
-  </View>
+        
+        {/* Informational Sub-View wrapper container */}
+        <View style={styles.sectionContainer}>
+          {/* Label Header */}
+          <Text style={styles.sectionTitle}>Content</Text>
+          {/* Main Description Body */}
+          <Text style={styles.contentText}>{recipe.description}</Text>
         </View>
+      </View>
       </ScrollView>
     );
   }
