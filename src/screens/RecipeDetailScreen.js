@@ -33,7 +33,11 @@ export default function RecipeDetailScreen(props) {
     >
       {/* recipe Image */}
       <View style={styles.imageContainer} testID="imageContainer">
-     
+        <Image 
+          source={{ uri: recipe.recipeImage }} 
+          style={styles.recipeImage}
+          resizeMode="cover" // Keeps the recipe photo from stretching awkwardly
+        />
       </View>
 
       {/* Back Button and Favorite Button */}
@@ -66,27 +70,64 @@ export default function RecipeDetailScreen(props) {
             testID="recipeDetailsContainer"
           >
             <Text style={styles.recipeTitle} testID="recipeTitle">
-         
-              
+              {recipe.recipeTitle}
               </Text>
             <Text style={styles.recipeCategory} testID="recipeCategory">
+                {recipe.recipeCategory}
               </Text>
           </View>
           <View style={styles.miscContainer} testID="miscContainer">
-        
+        {/* Minutes Badge */}
+    <View style={styles.miscItem}>
+      <Text style={styles.miscIcon}>🕒</Text>
+      <Text style={styles.miscText}>35 Mins</Text>
+    </View>
+
+    {/* Servings Badge */}
+    <View style={styles.miscItem}>
+      <Text style={styles.miscIcon}>👥</Text>
+      <Text style={styles.miscText}>03 Servings</Text>
+    </View>
+
+    {/* Calories Badge */}
+    <View style={styles.miscItem}>
+      <Text style={styles.miscIcon}>🔥</Text>
+      <Text style={styles.miscText}>103 Cal</Text>
+    </View>
+
+    {/* Difficulty Badge */}
+    <View style={styles.miscItem}>
+      <Text style={styles.miscIcon}>🎚️</Text>
+      <Text style={styles.miscText}>Medium</Text>
+    </View>
       </View>
 
       {/* Ingredients */}
       <View style={styles.sectionContainer}>
-     
+     <Text style={styles.sectionTitle}>Ingredients</Text>
+  
+  <View style={styles.ingredientsList} testID="ingredientsList">
+    {recipe.ingredients && recipe.ingredients.map((ingredient, index) => (
+      <View key={index} style={styles.ingredientItem}>
+        {/* Yellow round bullet indicator */}
+        <View style={styles.ingredientBullet} />
+        
+        {/* Ingredient Details text */}
+        <Text style={styles.ingredientText}>
+          <Text style={{ fontWeight: "bold" }}>{ingredient.measurement || ingredient.measure}</Text>{" "}
+          {ingredient.name || ingredient.ingredient}
+        </Text>
+      </View>
+    ))}
+  </View>
       </View>
 
       {/* Instructions */}
       <View style={styles.sectionContainer} testID="sectionContainer">
-        
+        <Text style={styles.sectionTitle}>Instructions</Text>
         </View>
           {/* Description */}
-         
+         <Text style={styles.instructionsText}>{recipe.recipeInstructions}</Text>
         </View>
     </ScrollView>
   );
